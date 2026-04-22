@@ -1,0 +1,13 @@
+[Unit]
+Description=Quiz Ansible Application
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory={{ app_dir }}
+ExecStart=/usr/local/bin/serve -s dist -l {{ app_port }}
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

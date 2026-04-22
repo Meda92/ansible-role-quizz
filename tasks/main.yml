@@ -1,0 +1,32 @@
+---
+- name: Install dependencies (Ubuntu/Debian)
+  include_tasks: ubuntu.yml
+  when: ansible_os_family == "Debian"
+
+- name: Install dependencies (Rocky/RedHat)
+  include_tasks: rocky.yml
+  when: ansible_os_family == "RedHat"
+
+- name: Clone quiz-ansible repository
+  git:
+    repo: "{{ app_repo }}"
+    dest: "{{ app_dir }}"
+    force: yes
+
+- name: Install npm dependencies
+  command: npm install
+  args:
+    chdir: "{{ app_dir }}"
+
+- name: Build the application
+  command: npm run build
+  args:
+    chdir: "{{ app_dir }}"
+
+- name: Install serve globally
+  command: npm install -g serve
+
+- name: Start application with serve
+  shell: nohup serve -s dist -l {{ app_port }} > /var/log/quiz-ansible.log 2>&1 &
+  args:
+    chdir: "{{ app_dir }}"

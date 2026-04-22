@@ -1,0 +1,17 @@
+galaxy_info:
+  author: tonnom
+  description: Deploy quiz-ansible Node.js app from GitLab
+  license: MIT
+  min_ansible_version: "2.9"
+  platforms:
+    - name: Ubuntu
+      versions: [focal, jammy]
+    - name: Debian
+      versions: [bullseye, bookworm]
+    - name: EL
+      versions: ["8", "9"]
+  galaxy_tags:
+    - nodejs
+    - webapp
+    - quiz
+dependencies: []

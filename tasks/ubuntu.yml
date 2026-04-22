@@ -1,0 +1,19 @@
+---
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+- name: Install git
+  apt:
+    name: git
+    state: present
+
+- name: Add NodeSource repo (Debian/Ubuntu)
+  shell: curl -fsSL https://deb.nodesource.com/setup_{{ node_version }}.x | bash -
+  args:
+    creates: /etc/apt/sources.list.d/nodesource.list
+
+- name: Install nodejs
+  apt:
+    name: nodejs
+    state: present
