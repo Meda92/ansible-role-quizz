@@ -1,7 +1,9 @@
 ---
-- name: Install git
+- name: Install git and procps-ng
   dnf:
-    name: git
+    name:
+      - git
+      - procps-ng
     state: present
     update_cache: yes
 

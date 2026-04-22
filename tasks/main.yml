@@ -1,32 +1,32 @@
 ---
-- name: Install dependencies (Ubuntu/Debian)
+- name: Inclure les tâches spécifiques à Ubuntu/Debian
   include_tasks: ubuntu.yml
   when: ansible_os_family == "Debian"
 
-- name: Install dependencies (Rocky/RedHat)
+- name: Inclure les tâches spécifiques à Rocky/RedHat
   include_tasks: rocky.yml
   when: ansible_os_family == "RedHat"
 
-- name: Clone quiz-ansible repository
+- name: Cloner le dépôt de l'application
   git:
     repo: "{{ app_repo }}"
-    dest: "{{ app_dir }}"
-    force: yes
+    dest: "{{ app_dest }}"
+    version: HEAD
 
-- name: Install npm dependencies
+- name: Installer les dépendances npm
   command: npm install
   args:
-    chdir: "{{ app_dir }}"
+    chdir: "{{ app_dest }}"
 
-- name: Build the application
+- name: Compiler l'application (build)
   command: npm run build
   args:
-    chdir: "{{ app_dir }}"
+    chdir: "{{ app_dest }}"
 
-- name: Install serve globally
+- name: Installer le serveur statique "serve"
   command: npm install -g serve
 
-- name: Start application with serve
+- name: Lancer l'application avec "serve"
   shell: nohup serve -s dist -l {{ app_port }} > /var/log/quiz-ansible.log 2>&1 &
   args:
-    chdir: "{{ app_dir }}"
+    chdir: "{{ app_dest }}"

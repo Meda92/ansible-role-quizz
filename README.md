@@ -4,7 +4,7 @@
 
 ```yaml
 - name: Déploiement quiz-ansible via role
-  hosts: all
+  hosts: rocky
   become: yes
   roles:
     - ansible-role-quiz
